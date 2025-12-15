@@ -90,6 +90,11 @@
             margin-bottom: 8px;
         }
 
+        .label-hint {
+            font-weight: 400;
+            color: #888;
+        }
+
         textarea {
             width: 100%;
             border: 1px solid #ddd;
@@ -201,12 +206,6 @@
             font-weight: 500;
         }
 
-        .hint {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 6px;
-        }
-
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -230,23 +229,21 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="question">問題文</label>
+                    <label for="question">問題文<span class="label-hint">（空欄部分は()や(A)(B)と記載してください）</span></label>
                     <textarea 
                         id="question" 
                         class="question-input" 
-                        placeholder="問題文を入力してください...&#10;&#10;例：組織検体の固定には、通常10～20%濃度の（　　　　　）溶液が用いられます。"
+                        placeholder="問題文を入力してください...&#10;&#10;例：組織検体の固定には、通常10～20%濃度の(A)溶液が用いられます。"
                     ></textarea>
-                    <p class="hint">空欄は ( )、（ ）、【 】、___ などどの形式でもOK</p>
                 </div>
 
                 <div class="input-group">
-                    <label for="answer">正解</label>
+                    <label for="answer">正解<span class="label-hint">（空欄が2つ以上ある場合は改行して入力してください。記号なしで構いません）</span></label>
                     <textarea 
                         id="answer" 
                         class="answer-input" 
                         placeholder="正解を入力してください...&#10;例：ホルマリン"
                     ></textarea>
-                    <p class="hint">空欄が2つ以上の場合は、改行して入力してください（例：A 偽腔［改行］B Stanford）</p>
                 </div>
 
                 <button class="btn btn-primary" onclick="formatQuestion()">

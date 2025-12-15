@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  saisei01:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: saisei01
+    ports:
+      - "8701:5000"
+    restart: unless-stopped

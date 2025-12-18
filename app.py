@@ -1,5 +1,5 @@
 """
-試験問題フォーマッター
+再生問題フォーマッター
 複数教員から回収した穴埋め問題を統一フォーマットに整形する
 """
 
@@ -10,17 +10,17 @@ app = Flask(__name__)
 
 # 空欄として認識するパターン（様々な形式に対応）
 BLANK_PATTERNS = [
-    r'（\s*）',           # （　）全角括弧
-    r'\(\s*\)',           # (  ) 半角括弧
-    r'【\s*】',           # 【　】
-    r'\[\s*\]',           # [  ]
-    r'_{2,}',             # __ アンダースコア2つ以上
-    r'＿{2,}',            # ＿＿ 全角アンダースコア2つ以上
-    r'[（(]\s*[A-Za-z]\s*[）)]',  # (A) （A） (A） （A) など括弧付きアルファベット
-    r'（\s*[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]\s*）',  # （①）丸数字
-    r'\(\s*[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑱⑲⑳]\s*\)',  # (①) 丸数字半角括弧
-    r'（\s*[0-9]+\s*）',   # （ 1 ）数字
-    r'\(\s*[0-9]+\s*\)',   # ( 1 ) 数字半角括弧
+    r'（\s*）',                          # （　）全角括弧
+    r'\(\s*\)',                          # ( ) 半角括弧
+    r'【\s*】',                          # 【　】
+    r'\[\s*\]',                          # [ ]
+    r'_{2,}',                            # __ アンダースコア2つ以上
+    r'＿{2,}',                           # ＿＿ 全角アンダースコア2つ以上
+    r'[（(]\s*[ABab]\s*[）)]',           # (A) （B） (a) (b) など括弧付きアルファベット
+    r'（\s*[①②]\s*）',                  # （①）（②）丸数字
+    r'\(\s*[①②]\s*\)',                  # (①) (②) 丸数字半角括弧
+    r'（\s*[12]\s*）',                   # （1）（2）数字
+    r'\(\s*[12]\s*\)',                   # (1) (2) 数字半角括弧
 ]
 
 # ですます調→である調の変換パターン
@@ -58,7 +58,6 @@ QUESTION_END_PATTERNS = [
     (r'はなんであるか[。？?]?', 'はなにか。'),
     (r'はなんか[。？?]?', 'はなにか。'),
 ]
-
 
 def normalize_standalone_letters(text):
     """
@@ -100,8 +99,8 @@ def normalize_standalone_letters(text):
     
     # パターン2: 日本語/句読点/接続詞 + 大文字アルファベット1文字 + 日本語/句読点/接続詞
     # ただし、前後に他のアルファベットがある場合は除外（英単語の一部）
-    # 
-    # 対象文字: 
+    #
+    # 対象文字:
     # - 前: 日本語、読点、接続詞（と、や、・）
     # - 後: 日本語、読点、接続詞
     before_chars = r'[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF、,とや・]'
@@ -131,7 +130,6 @@ def normalize_standalone_letters(text):
     
     return result
 
-
 def normalize_blanks(text):
     """様々な形式の空欄を統一マーカーに変換"""
     result = text
@@ -145,7 +143,6 @@ def normalize_blanks(text):
     
     return result
 
-
 def convert_desu_masu(text):
     """ですます調をである調に変換し、疑問文末尾を統一"""
     result = text
@@ -156,7 +153,6 @@ def convert_desu_masu(text):
     for pattern, replacement in DESU_MASU_PATTERNS:
         result = re.sub(pattern, replacement, result)
     return result
-
 
 def clean_text(text):
     """余計な空白や句読点を整理"""
@@ -180,7 +176,6 @@ def clean_text(text):
     result = re.sub(r'\n\s*\n', '\n', result)
     return result
 
-
 def format_blanks(text, blank_count):
     """空欄マーカーを適切な形式に変換"""
     if blank_count == 0:
@@ -196,7 +191,6 @@ def format_blanks(text, blank_count):
             if i < len(labels):
                 result = result.replace('{{BLANK}}', f'（　　{labels[i]}　　）', 1)
         return result
-
 
 def format_answer(answer, blank_count):
     """正解を適切な形式に整形"""
@@ -316,7 +310,6 @@ def format_answer(answer, blank_count):
         else:
             return f'正解：{answer}'
 
-
 def format_question(question_text, answer_text):
     """問題文と正解を整形"""
     # 1. 空欄を統一マーカーに変換
@@ -348,11 +341,9 @@ def format_question(question_text, answer_text):
         'blank_count': blank_count
     }
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/format', methods=['POST'])
 def format_api():
@@ -362,7 +353,6 @@ def format_api():
     
     result = format_question(question, answer)
     return jsonify(result)
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)

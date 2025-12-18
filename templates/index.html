@@ -3,62 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>試験問題フォーマッター</title>
+    <title>再生問題フォーマッター</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
+        
         body {
             font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif;
             background: #f5f5f5;
             min-height: 100vh;
             padding: 20px;
         }
-
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-
+        
         header {
             text-align: center;
             margin-bottom: 30px;
         }
-
+        
         h1 {
             color: #333;
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 8px;
         }
-
+        
         .subtitle {
             color: #666;
             font-size: 0.95rem;
         }
-
+        
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
         }
-
+        
         @media (max-width: 900px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         .panel {
             background: white;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             padding: 24px;
         }
-
+        
         .panel-header {
             display: flex;
             align-items: center;
@@ -67,21 +67,21 @@
             padding-bottom: 12px;
             border-bottom: 2px solid #eee;
         }
-
+        
         .panel-title {
             font-size: 1.1rem;
             font-weight: 600;
             color: #333;
         }
-
+        
         .input-panel .panel-title {
             color: #2563eb;
         }
-
+        
         .output-panel .panel-title {
             color: #059669;
         }
-
+        
         label {
             display: block;
             font-size: 0.9rem;
@@ -89,12 +89,12 @@
             color: #555;
             margin-bottom: 8px;
         }
-
+        
         .label-hint {
             font-weight: 400;
             color: #888;
         }
-
+        
         textarea {
             width: 100%;
             border: 1px solid #ddd;
@@ -106,25 +106,25 @@
             resize: vertical;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
-
+        
         textarea:focus {
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-
+        
         .input-group {
             margin-bottom: 20px;
         }
-
+        
         .question-input {
             min-height: 180px;
         }
-
+        
         .answer-input {
             min-height: 80px;
         }
-
+        
         .btn {
             display: inline-flex;
             align-items: center;
@@ -138,38 +138,38 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
+        
         .btn-primary {
             background: #2563eb;
             color: white;
             width: 100%;
         }
-
+        
         .btn-primary:hover {
             background: #1d4ed8;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
-
+        
         .btn-copy {
             background: #059669;
             color: white;
             padding: 8px 16px;
             font-size: 0.85rem;
         }
-
+        
         .btn-copy:hover {
             background: #047857;
         }
-
+        
         .btn-copy.copied {
             background: #6b7280;
         }
-
+        
         .output-group {
             margin-bottom: 20px;
         }
-
+        
         .output-box {
             background: #f9fafb;
             border: 1px solid #e5e7eb;
@@ -181,21 +181,21 @@
             font-size: 1rem;
             color: #333;
         }
-
+        
         .output-question {
             min-height: 200px;
         }
-
+        
         .output-answer {
             min-height: 60px;
         }
-
+        
         .copy-section {
             display: flex;
             gap: 10px;
             margin-top: 16px;
         }
-
+        
         .blank-count {
             display: inline-block;
             background: #dbeafe;
@@ -205,7 +205,7 @@
             font-size: 0.85rem;
             font-weight: 500;
         }
-
+        
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -217,62 +217,62 @@
 <body>
     <div class="container">
         <header>
-            <h1>試験問題フォーマッター</h1>
+            <h1>再生問題フォーマッター</h1>
             <p class="subtitle">穴埋め問題を統一フォーマットに整形します</p>
         </header>
-
+        
         <div class="main-grid">
             <!-- 入力パネル -->
             <div class="panel input-panel">
                 <div class="panel-header">
                     <span class="panel-title">📝 入力</span>
                 </div>
-
+                
                 <div class="input-group">
-                    <label for="question">問題文<span class="label-hint">（空欄部分は()や（）で記載してください。記号は不要です）</span></label>
+                    <label for="question">問題文<span class="label-hint">（空欄部分は ( )、（ ）、（A）、（B）、（a）、（b）、（①）、（②）、（1）、（2）などで記載してください）</span></label>
                     <textarea 
                         id="question" 
-                        class="question-input" 
+                        class="question-input"
                         placeholder="問題文を入力してください...&#10;&#10;例：組織検体の固定には、通常10～20%濃度の(A)溶液が用いられます。"
                     ></textarea>
                 </div>
-
+                
                 <div class="input-group">
                     <label for="answer">正解<span class="label-hint">（空欄が2つ以上ある場合は改行して入力してください。記号なしで構いません）</span></label>
                     <textarea 
                         id="answer" 
-                        class="answer-input" 
+                        class="answer-input"
                         placeholder="正解を入力してください...&#10;例：ホルマリン"
                     ></textarea>
                 </div>
-
+                
                 <button class="btn btn-primary" onclick="formatQuestion()">
                     <span>整形する</span>
                     <span>→</span>
                 </button>
             </div>
-
+            
             <!-- 出力パネル -->
             <div class="panel output-panel">
                 <div class="panel-header">
                     <span class="panel-title">✅ 出力</span>
                     <span class="blank-count" id="blankCount">空欄: 0個</span>
                 </div>
-
+                
                 <div class="output-group">
                     <label>整形後の問題文</label>
                     <div class="output-box output-question" id="outputQuestion">
                         整形結果がここに表示されます
                     </div>
                 </div>
-
+                
                 <div class="output-group">
                     <label>整形後の正解</label>
                     <div class="output-box output-answer" id="outputAnswer">
                         正解：
                     </div>
                 </div>
-
+                
                 <div class="copy-section">
                     <button class="btn btn-copy" onclick="copyQuestion()">問題をコピー</button>
                     <button class="btn btn-copy" onclick="copyAnswer()">正解をコピー</button>
@@ -280,22 +280,22 @@
                 </div>
             </div>
         </div>
-
+        
         <footer class="footer">
-            試験問題フォーマッター v1.0
+            再生問題フォーマッター v1.0
         </footer>
     </div>
-
+    
     <script>
         async function formatQuestion() {
             const question = document.getElementById('question').value;
             const answer = document.getElementById('answer').value;
-
+            
             if (!question.trim()) {
                 alert('問題文を入力してください');
                 return;
             }
-
+            
             try {
                 const response = await fetch('/format', {
                     method: 'POST',
@@ -304,19 +304,19 @@
                     },
                     body: JSON.stringify({ question, answer })
                 });
-
+                
                 const result = await response.json();
                 
                 document.getElementById('outputQuestion').textContent = result.question;
                 document.getElementById('outputAnswer').textContent = result.answer;
                 document.getElementById('blankCount').textContent = `空欄: ${result.blank_count}個`;
-
+                
             } catch (error) {
                 console.error('Error:', error);
                 alert('整形処理でエラーが発生しました');
             }
         }
-
+        
         function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.textContent;
@@ -331,24 +331,24 @@
                 alert('コピーに失敗しました');
             });
         }
-
+        
         function copyQuestion() {
             const text = document.getElementById('outputQuestion').textContent;
             copyToClipboard(text, event.target);
         }
-
+        
         function copyAnswer() {
             const text = document.getElementById('outputAnswer').textContent;
             copyToClipboard(text, event.target);
         }
-
+        
         function copyAll() {
             const question = document.getElementById('outputQuestion').textContent;
             const answer = document.getElementById('outputAnswer').textContent;
             const text = question + '\n' + answer;
             copyToClipboard(text, event.target);
         }
-
+        
         // Ctrl+Enter で整形実行
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') {
